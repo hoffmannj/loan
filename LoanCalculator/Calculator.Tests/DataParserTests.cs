@@ -18,6 +18,15 @@ namespace Calculator.Tests
         }
 
         [Fact]
+        public void Test_DataParser_Wrong_Number_Of_Fields()
+        {
+            var data = new string[] { "123.123", "1000" };
+            var parser = new DataParser();
+            var result = parser.Parse(data);
+            Assert.Null(result);
+        }
+
+        [Fact]
         public void Test_DataParser_Missing_Name()
         {
             var data = new string[] { "", "123.123", "1000" };
