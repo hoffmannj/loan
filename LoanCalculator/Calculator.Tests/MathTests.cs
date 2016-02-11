@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Calculator.Tests
 {
-    public class MathTest
+    public class MathTests
     {
         [Fact]
         public void Test_Math_Instantiate()
@@ -24,7 +24,6 @@ namespace Calculator.Tests
             Assert.Equal(1, math.Pow(10, 0));
         }
 
-
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -36,6 +35,23 @@ namespace Calculator.Tests
         {
             var math = new MathFunctions();
             Assert.Equal((decimal)Math.Pow(10, value), math.Pow(10, value));
+        }
+
+
+        [Fact]
+        public void Test_Math_GetMonthlyInstallment()
+        {
+            var math = new MathFunctions();
+            //12000 loan, annual rate 11%, for 4 years
+            Assert.Equal(310.15m, Math.Round(math.GetMonthlyInstallment(12000m, 0.11m, 4), 2));
+        }
+
+        [Fact]
+        public void Test_Math_GetTotalPayment()
+        {
+            var math = new MathFunctions();
+            //12000 loan, annual rate 11%, for 4 years
+            Assert.Equal(14887.02m, Math.Round(math.GetTotalPayment(12000m, 0.11m, 4), 2));
         }
     }
 }
