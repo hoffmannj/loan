@@ -9,34 +9,32 @@ namespace Calculator.Helper
         {
             var lender = new Lender(string.Empty, 0, 0);
 
-            if (!CheckLength(data)) return null;
-            if (!CheckName(data, lender)) return null;
-            if (!CheckRate(data, lender)) return null;
-            if (!CheckAmount(data, lender)) return null;
+            CheckLength(data);
+            CheckName(data, lender);
+            CheckRate(data, lender);
+            CheckAmount(data, lender);
 
             return lender;
         }
 
-        private bool CheckLength(string[] data)
+        private void CheckLength(string[] data)
         {
             if (data.Length != 3)
             {
                 throw new DataParsingException(string.Format("Wrong format in data file. Line: {0}", string.Join(",", data)));
             }
-            return true;
         }
 
-        private bool CheckName(string[] data, Lender lender)
+        private void CheckName(string[] data, Lender lender)
         {
             if (string.IsNullOrEmpty(data[0]))
             {
                 throw new DataParsingException(string.Format("Name is missing in data file. Line: {0}", string.Join(",", data)));
             }
             lender.Name = data[0];
-            return true;
         }
 
-        private bool CheckRate(string[] data, Lender lender)
+        private void CheckRate(string[] data, Lender lender)
         {
             decimal rate;
             if (!decimal.TryParse(data[1], out rate))
@@ -44,10 +42,9 @@ namespace Calculator.Helper
                 throw new DataParsingException(string.Format("Rate field can't be parsed. Line: {0}", string.Join(",", data)));
             }
             lender.Rate = rate;
-            return true;
         }
 
-        private bool CheckAmount(string[] data, Lender lender)
+        private void CheckAmount(string[] data, Lender lender)
         {
             decimal amount;
             if (!decimal.TryParse(data[2], out amount))
@@ -55,7 +52,6 @@ namespace Calculator.Helper
                 throw new DataParsingException(string.Format("Amount field can't be parsed. Line: {0}", string.Join(",", data)));
             }
             lender.Available = amount;
-            return true;
         }
     }
 }
