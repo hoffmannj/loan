@@ -1,12 +1,10 @@
-﻿using Calculator.Helper;
+﻿using Calculator.Exceptions;
+using Calculator.Helper;
 using Calculator.Implementation;
 using Calculator.Interfaces;
 using Calculator.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator
 {
@@ -22,24 +20,40 @@ namespace Calculator
                 return;
             }
 
-            var lenders = new List<Lender>();
-
-            using (IReader reader = new CsvReader())
+            try
             {
-                var parser = new DataParser();
-                if (reader.Open(parameters.FileName))
+                List<Lender> lenders = null;
+                using (IReader reader = new CsvReader())
                 {
-                    string[] data;
-                    while ((data = reader.ReadData()) != null)
-                    {
-                        var lender = parser.Parse(data);
-                        if (lender != null) lenders.Add(lender);
-                    }
+                    var collector = new DataCollector(reader);
+                    lenders = collector.Collect(parameters.FileName);
+                }
+                var loanCalculator = new LoanCalculator();
+                var result = loanCalculator.CalculateLoan(lenders, parameters.TargetAmount, 3);
+                if (result == null)
+                {
+                    Console.WriteLine("It's not possible to provide a quote");
                 }
                 else
                 {
-                    Console.WriteLine("Couldn't open the input.");
+                    PrintLending(result);
                 }
+            }
+            catch (ReaderException rEx)
+            {
+                Console.WriteLine("Error during reading input: {0}", rEx.Message);
+            }
+            catch (DataParsingException dpEx)
+            {
+                Console.WriteLine("Error during parsing data: {0}", dpEx.Message);
+            }
+            catch (CalculatorException cEx)
+            {
+                Console.WriteLine("Error during calculation: {0}", cEx.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Uncategorized error: {0}", ex.Message);
             }
         }
 
@@ -49,6 +63,14 @@ namespace Calculator
             Console.WriteLine("{0} <market_file> <loan_amount>",
                 System.IO.Path.GetFileName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase));
             Console.WriteLine();
+        }
+
+        static void PrintLending(Lending lending)
+        {
+            Console.WriteLine("Requested amount: £{0}", lending.Amount);
+            Console.WriteLine("Rate: {0:0.0}%", lending.Rate * 100);
+            Console.WriteLine("Monthly repayment: £{0:0.00}", lending.MonthlyAmount);
+            Console.WriteLine("Total repayment: £{0:0.00}", lending.TotalAmount);
         }
     }
 }

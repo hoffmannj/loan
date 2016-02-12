@@ -1,9 +1,5 @@
 ﻿using Calculator.Helper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Calculator.Tests
@@ -43,6 +39,7 @@ namespace Calculator.Tests
         {
             var math = new MathFunctions();
             //12000 loan, annual rate 11%, for 4 years
+            //value calculated on this site: http://www.thisismoney.co.uk/money/cardsloans/article-1633405/Loan-repayment-calculator.html
             Assert.Equal(310.15m, Math.Round(math.GetMonthlyInstallment(12000m, 0.11m, 4), 2));
         }
 
@@ -51,6 +48,7 @@ namespace Calculator.Tests
         {
             var math = new MathFunctions();
             //12000 loan, annual rate 11%, for 4 years
+            //value calculated on this site: http://www.thisismoney.co.uk/money/cardsloans/article-1633405/Loan-repayment-calculator.html
             Assert.Equal(14887.02m, Math.Round(math.GetTotalPayment(12000m, 0.11m, 4), 2));
         }
     }

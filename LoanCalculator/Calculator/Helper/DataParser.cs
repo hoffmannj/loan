@@ -1,9 +1,5 @@
-﻿using Calculator.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Calculator.Exceptions;
+using Calculator.Model;
 
 namespace Calculator.Helper
 {
@@ -25,8 +21,7 @@ namespace Calculator.Helper
         {
             if (data.Length != 3)
             {
-                Console.WriteLine("Wrong format in data file. Line: {0}", string.Join(",", data));
-                return false;
+                throw new DataParsingException(string.Format("Wrong format in data file. Line: {0}", string.Join(",", data)));
             }
             return true;
         }
@@ -35,8 +30,7 @@ namespace Calculator.Helper
         {
             if (string.IsNullOrEmpty(data[0]))
             {
-                Console.WriteLine("Name is missing in data file. Line: {0}", string.Join(",", data));
-                return false;
+                throw new DataParsingException(string.Format("Name is missing in data file. Line: {0}", string.Join(",", data)));
             }
             lender.Name = data[0];
             return true;
@@ -47,8 +41,7 @@ namespace Calculator.Helper
             decimal rate;
             if (!decimal.TryParse(data[1], out rate))
             {
-                Console.WriteLine("Rate field can't be parsed. Line: {0}", string.Join(",", data));
-                return false;
+                throw new DataParsingException(string.Format("Rate field can't be parsed. Line: {0}", string.Join(",", data)));
             }
             lender.Rate = rate;
             return true;
@@ -59,8 +52,7 @@ namespace Calculator.Helper
             decimal amount;
             if (!decimal.TryParse(data[2], out amount))
             {
-                Console.WriteLine("Amount field can't be parsed. Line: {0}", string.Join(",", data));
-                return false;
+                throw new DataParsingException(string.Format("Amount field can't be parsed. Line: {0}", string.Join(",", data)));
             }
             lender.Available = amount;
             return true;

@@ -1,9 +1,5 @@
-﻿using Calculator.Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Calculator.Exceptions;
+using Calculator.Helper;
 using Xunit;
 
 namespace Calculator.Tests
@@ -22,8 +18,10 @@ namespace Calculator.Tests
         {
             var data = new string[] { "123.123", "1000" };
             var parser = new DataParser();
-            var result = parser.Parse(data);
-            Assert.Null(result);
+            Assert.Throws<DataParsingException>(() =>
+            {
+                var result = parser.Parse(data);
+            });
         }
 
         [Fact]
@@ -31,8 +29,10 @@ namespace Calculator.Tests
         {
             var data = new string[] { "", "123.123", "1000" };
             var parser = new DataParser();
-            var result = parser.Parse(data);
-            Assert.Null(result);
+            Assert.Throws<DataParsingException>(() =>
+            {
+                var result = parser.Parse(data);
+            });
         }
 
         [Fact]
@@ -40,8 +40,10 @@ namespace Calculator.Tests
         {
             var data = new string[] { "Joe", "123#123", "1000" };
             var parser = new DataParser();
-            var result = parser.Parse(data);
-            Assert.Null(result);
+            Assert.Throws<DataParsingException>(() =>
+            {
+                var result = parser.Parse(data);
+            });
         }
         
         [Fact]
@@ -49,8 +51,10 @@ namespace Calculator.Tests
         {
             var data = new string[] { "Joe", "123.123", "10%0" };
             var parser = new DataParser();
-            var result = parser.Parse(data);
-            Assert.Null(result);
+            Assert.Throws<DataParsingException>(() =>
+            {
+                var result = parser.Parse(data);
+            });
         }
 
         [Fact]

@@ -1,9 +1,6 @@
-﻿using Calculator.Interfaces;
+﻿using Calculator.Exceptions;
+using Calculator.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Implementation
 {
@@ -16,12 +13,12 @@ namespace Calculator.Implementation
             try
             {
                 _reader = new System.IO.StreamReader(parameter);
+                _reader.ReadLine();
                 return true;
             }
             catch (Exception)
             {
-                _reader = null;
-                return false;
+                throw new ReaderException("Couldn't open the input");
             }
         }
 
@@ -44,7 +41,7 @@ namespace Calculator.Implementation
         {
             if (_reader == null)
             {
-                throw new NullReferenceException("The reader is not initialized");
+                throw new ReaderException("The reader is not initialized");
             }
         }
 

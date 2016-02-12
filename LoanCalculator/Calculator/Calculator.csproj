@@ -42,12 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\CalculatorException.cs" />
+    <Compile Include="Exceptions\DataParsingException.cs" />
+    <Compile Include="Exceptions\ReaderException.cs" />
+    <Compile Include="Helper\DataCollector.cs" />
     <Compile Include="Helper\DataParser.cs" />
+    <Compile Include="Helper\LoanCalculator.cs" />
     <Compile Include="Helper\MathFunctions.cs" />
     <Compile Include="Helper\ParameterParser.cs" />
     <Compile Include="Implementation\CsvReader.cs" />
     <Compile Include="Interfaces\IReader.cs" />
     <Compile Include="Model\Lender.cs" />
+    <Compile Include="Model\Lending.cs" />
     <Compile Include="Model\ProgramParameters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
